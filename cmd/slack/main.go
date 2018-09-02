@@ -23,13 +23,14 @@ func handleEvent(event lambdaEvents.APIGatewayProxyRequest) (lambdaEvents.APIGat
 		return utils.RespondWithError(err), nil
 	}
 
-	if slackEvent.EventType == slackEvents.ChallengeType {
+	switch slackEvent.EventType {
+	case slackEvents.ChallengeType:
 		return handlers.HandleChallenge(event.Body)
+	default:
+		return lambdaEvents.APIGatewayProxyResponse{
+			StatusCode: 200,
+		}, nil
 	}
-
-	return lambdaEvents.APIGatewayProxyResponse{
-		StatusCode: 200,
-	}, nil
 }
 
 func main() {
