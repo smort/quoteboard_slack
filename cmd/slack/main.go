@@ -26,6 +26,8 @@ func handleEvent(event lambdaEvents.APIGatewayProxyRequest) (lambdaEvents.APIGat
 	switch slackEvent.EventType {
 	case slackEvents.ChallengeType:
 		return handlers.HandleChallenge(event.Body)
+	case slackEvents.CallbackType:
+		return handlers.HandleEventCallback(slackEvent)
 	default:
 		return lambdaEvents.APIGatewayProxyResponse{
 			StatusCode: 200,
