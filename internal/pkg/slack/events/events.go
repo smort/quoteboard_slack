@@ -1,15 +1,19 @@
 package events
 
+import (
+	"encoding/json"
+)
+
 // EventWrapper is the event wrapping all other events
 type EventWrapper struct {
-	Token       string   `json:"token"`
-	TeamID      string   `json:"team_id"`
-	APIAppID    string   `json:"api_app_id"`
-	Event       string   `json:"event"`
-	EventType   string   `json:"type"`
-	AuthedUsers []string `json:"authed_users"`
-	EventID     string   `json:"event_id"`
-	EventTime   int64    `json:"event_time"`
+	Token       string          `json:"token"`
+	TeamID      string          `json:"team_id"`
+	APIAppID    string          `json:"api_app_id"`
+	Event       json.RawMessage `json:"event"`
+	EventType   string          `json:"type"`
+	AuthedUsers []string        `json:"authed_users"`
+	EventID     string          `json:"event_id"`
+	EventTime   int64           `json:"event_time"`
 }
 
 type EventGeneric struct {
