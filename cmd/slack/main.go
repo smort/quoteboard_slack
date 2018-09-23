@@ -38,15 +38,15 @@ func handleEvent(event lambdaEvents.APIGatewayProxyRequest) (lambdaEvents.APIGat
 		return utils.RespondWithError(err), nil
 	}
 
-	var handlerError error
+	var handleError error
 	var response lambdaEvents.APIGatewayProxyResponse
 	switch slackEvent.EventType {
 	case slackEvents.ChallengeType:
 		log.Debug("Event is a challenge")
-		response, handlerError = handlers.HandleChallenge(event.Body)
+		response, handleError = handlers.HandleChallenge(event.Body)
 	case slackEvents.CallbackType:
 		log.Debug("Event is an event callback")
-		response, handlerError = handlers.HandleEventCallback(slackEvent)
+		response, handleError = handlers.HandleEventCallback(slackEvent)
 	default:
 		log.Debug("Event is unknown type, responding with default")
 		response = lambdaEvents.APIGatewayProxyResponse{
@@ -54,8 +54,8 @@ func handleEvent(event lambdaEvents.APIGatewayProxyRequest) (lambdaEvents.APIGat
 		}
 	}
 
-	if handlerError != nil {
-		log.Errorf("An error occurred in a handler. %v", handlerError)
+	if handleError != nil {
+		log.Errorf("An error occurred in a handler. %v", handleError)
 		// returning 500 will cause Slack to retry
 		return lambdaEvents.APIGatewayProxyResponse{
 			StatusCode: 500,
